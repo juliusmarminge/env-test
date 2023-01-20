@@ -17,7 +17,7 @@ export const server = z.object({
     // Since NextAuth.js automatically uses the VERCEL_URL if present.
     (str) => process.env.VERCEL_URL ?? str,
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-    process.env.VERCEL ? z.string() : z.string().url(),
+    process.env.VERCEL ? z.string() : z.string().url()
   ),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
@@ -29,7 +29,7 @@ export const server = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const client = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string(),
+  NEXT_PUBLIC_CLIENTVAR: z.string(),
 });
 
 /**
@@ -44,7 +44,7 @@ const processEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
 // Don't touch the part below
@@ -52,7 +52,7 @@ const processEnv = {
 
 const formatErrors = (
   /** @type {z.ZodFormattedError<Map<string,string>,string>} */
-  errors,
+  errors
 ) =>
   Object.entries(errors)
     .map(([name, value]) => {
@@ -71,7 +71,7 @@ const parsed = isServer
 if (parsed.success === false) {
   console.error(
     "❌ Invalid environment variables:\n",
-    ...formatErrors(parsed.error.format()),
+    ...formatErrors(parsed.error.format())
   );
   throw new Error("Invalid environment variables");
 }
@@ -85,7 +85,7 @@ export const env = new Proxy(parsed.data, {
     // Otherwise it would just be returning `undefined` and be annoying to debug
     if (!isServer && !prop.startsWith("NEXT_PUBLIC_"))
       throw new Error(
-        `❌ Attempted to access server-side environment variable '${prop}' on the client`,
+        `❌ Attempted to access server-side environment variable '${prop}' on the client`
       );
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore - can't type this properly in jsdoc

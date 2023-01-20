@@ -46,7 +46,7 @@ const Home: NextPage = () => {
             </Link>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p>Public: {env.NEXT_PUBLIC_CLIENTVAR}</p>
+            <p>Server: {env.DATABASE_URL}</p>
             <p className="text-2xl text-white">
               {hello.data ? hello.data.greeting : "Loading tRPC query..."}
             </p>
